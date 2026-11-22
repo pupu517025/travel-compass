@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-11-22T16:40:56.441Z",
+  "fetched_at": "2026-11-22T16:42:38.978Z",
   "sources": [
     {
       "source": "臺北旅遊網活動年曆",
@@ -7,7 +7,7 @@
       "url": "https://www.travel.taipei/zh-tw/event-calendar/2026?major=0",
       "status": "error",
       "error": "HTTP 403",
-      "elapsed_ms": 62
+      "elapsed_ms": 69
     },
     {
       "source": "新北市觀光旅遊網活動行事曆",
@@ -17,7 +17,7 @@
       "http_status": 200,
       "bytes": 159717,
       "candidates": 0,
-      "elapsed_ms": 363
+      "elapsed_ms": 560
     },
     {
       "source": "桃園觀光導覽網節慶與活動",
@@ -27,15 +27,17 @@
       "http_status": 200,
       "bytes": 6494,
       "candidates": 0,
-      "elapsed_ms": 723
+      "elapsed_ms": 1749
     },
     {
       "source": "臺中觀光旅遊網活動行事曆",
       "city": "台中市",
       "url": "https://travel.taichung.gov.tw/zh-tw/event/touristcalendar?year=2026",
-      "status": "error",
-      "error": "The operation was aborted due to timeout",
-      "elapsed_ms": 12017
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 653994,
+      "candidates": 0,
+      "elapsed_ms": 2197
     },
     {
       "source": "臺南市政府年度活動導覽",
@@ -45,7 +47,7 @@
       "http_status": 200,
       "bytes": 152935,
       "candidates": 0,
-      "elapsed_ms": 1305
+      "elapsed_ms": 2410
     },
     {
       "source": "高雄旅遊網活動行事曆",
@@ -53,7 +55,7 @@
       "url": "https://khh.travel/zh-tw/event/calendar/2026/",
       "status": "error",
       "error": "HTTP 403",
-      "elapsed_ms": 27
+      "elapsed_ms": 24
     },
     {
       "source": "基隆市政府活動訊息",
@@ -63,7 +65,7 @@
       "http_status": 200,
       "bytes": 36022,
       "candidates": 0,
-      "elapsed_ms": 560
+      "elapsed_ms": 1785
     },
     {
       "source": "新竹市觀光旅遊網活動行事曆",
@@ -73,7 +75,7 @@
       "http_status": 200,
       "bytes": 512,
       "candidates": 0,
-      "elapsed_ms": 154
+      "elapsed_ms": 663
     },
     {
       "source": "新竹縣政府文化局藝文活動資訊網",
@@ -83,7 +85,7 @@
       "http_status": 200,
       "bytes": 66175,
       "candidates": 5,
-      "elapsed_ms": 504
+      "elapsed_ms": 1661
     },
     {
       "source": "苗栗文化觀光旅遊網最新消息公告",
@@ -93,7 +95,7 @@
       "http_status": 200,
       "bytes": 78094,
       "candidates": 2,
-      "elapsed_ms": 4041
+      "elapsed_ms": 9049
     },
     {
       "source": "彰化縣政府活動訊息",
@@ -103,7 +105,7 @@
       "http_status": 200,
       "bytes": 119050,
       "candidates": 1,
-      "elapsed_ms": 644
+      "elapsed_ms": 1605
     },
     {
       "source": "南投縣政府活動日曆",
@@ -113,7 +115,7 @@
       "http_status": 200,
       "bytes": 88,
       "candidates": 0,
-      "elapsed_ms": 307
+      "elapsed_ms": 2140
     },
     {
       "source": "雲林縣政府活動行事曆",
@@ -121,7 +123,7 @@
       "url": "https://www.yunlin.gov.tw/News.aspx?n=1245&sms=9663",
       "status": "error",
       "error": "HTTP 403",
-      "elapsed_ms": 44
+      "elapsed_ms": 235
     },
     {
       "source": "嘉義市政府觀光旅遊網",
@@ -129,7 +131,7 @@
       "url": "https://www.chiayi.gov.tw/",
       "status": "error",
       "error": "HTTP 400",
-      "elapsed_ms": 91
+      "elapsed_ms": 1591
     },
     {
       "source": "嘉義縣文化觀光局慢遊嘉義",
@@ -139,7 +141,7 @@
       "http_status": 200,
       "bytes": 125619,
       "candidates": 1,
-      "elapsed_ms": 377
+      "elapsed_ms": 642
     },
     {
       "source": "屏東旅遊網節慶與活動",
@@ -147,9 +149,9 @@
       "url": "https://www.i-pingtung.com/",
       "status": "ok",
       "http_status": 200,
-      "bytes": 2614340,
+      "bytes": 2616094,
       "candidates": 0,
-      "elapsed_ms": 149
+      "elapsed_ms": 180
     },
     {
       "source": "宜蘭勁好玩活動年曆",
@@ -159,7 +161,7 @@
       "http_status": 200,
       "bytes": 306546,
       "candidates": 0,
-      "elapsed_ms": 130
+      "elapsed_ms": 1986
     },
     {
       "source": "花蓮旅遊網活動年曆",
@@ -169,7 +171,7 @@
       "http_status": 200,
       "bytes": 436482,
       "candidates": 0,
-      "elapsed_ms": 155
+      "elapsed_ms": 967
     },
     {
       "source": "台東觀光旅遊網觀光行事曆",
@@ -179,17 +181,15 @@
       "http_status": 200,
       "bytes": 88987,
       "candidates": 0,
-      "elapsed_ms": 1842
+      "elapsed_ms": 4091
     },
     {
       "source": "澎湖縣政府旅遊處活動訊息",
       "city": "澎湖縣",
       "url": "https://www.penghu.gov.tw/tourism/home.jsp?id=62",
-      "status": "ok",
-      "http_status": 200,
-      "bytes": 64470,
-      "candidates": 0,
-      "elapsed_ms": 1253
+      "status": "error",
+      "error": "fetch failed",
+      "elapsed_ms": 458
     },
     {
       "source": "金門觀光旅遊網",
@@ -199,7 +199,7 @@
       "http_status": 200,
       "bytes": 5109,
       "candidates": 0,
-      "elapsed_ms": 268
+      "elapsed_ms": 1010
     },
     {
       "source": "馬祖 eTravel 活動資訊",
@@ -209,15 +209,15 @@
       "http_status": 200,
       "bytes": 39896,
       "candidates": 0,
-      "elapsed_ms": 1309
+      "elapsed_ms": 2239
     }
   ],
   "source_count": 22,
   "successful": 17,
   "failed": 5,
   "candidates": 9,
-  "new_pending": 1,
-  "merged_duplicates": 8,
-  "total_events": 142,
-  "approved": 140
+  "new_pending": 2,
+  "merged_duplicates": 7,
+  "total_events": 126,
+  "approved": 124
 }
