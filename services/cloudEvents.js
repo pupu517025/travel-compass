@@ -42,6 +42,11 @@
       if (error) throw error;
       return data.user;
     },
+    async sendPasswordReset(email) {
+      const redirectTo = new URL('./', global.location.href).href;
+      const { error } = await requireClient().auth.resetPasswordForEmail(email, { redirectTo });
+      if (error) throw error;
+    },
     async signOut() {
       const { error } = await requireClient().auth.signOut();
       if (error) throw error;
