@@ -1,6 +1,13 @@
 name: Sync Taiwan events
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/sync-events.yml
+      - data/county-event-sources.json
+      - scripts/sync-county-events.mjs
+      - 功能說明.md
   schedule:
     - cron: '10 19 * * *' # 03:10 Asia/Taipei
   workflow_dispatch:
