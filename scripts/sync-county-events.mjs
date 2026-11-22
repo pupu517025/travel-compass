@@ -21,7 +21,7 @@ vm.runInNewContext(await readFile(resolve(ROOT, 'data/taiwan.js'), 'utf8'), taiw
 const TAIWAN = taiwanContext.window.TaiwanData;
 const COUNTY_CENTERS = TAIWAN.countyCenter;
 const DISTRICTS = Object.fromEntries(Object.entries(TAIWAN.countyData).map(([city, names]) => [city, names.split(' ')]));
-const stripTags = value => decodeHtml(String(value || '').replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim());
+const stripTags = value => decodeHtml(String(value || '').replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]*>/g, ' ').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, ' ').replace(/\s+/g, ' ').trim());
 const decodeHtml = value => String(value || '').replace(/&nbsp;|&#160;/gi,' ').replace(/&amp;/gi,'&').replace(/&quot;/gi,'"').replace(/&#39;|&apos;/gi,"'").replace(/&lt;/gi,'<').replace(/&gt;/gi,'>').replace(/&#(\d+);/g,(_,n)=>String.fromCodePoint(Number(n))).replace(/&#x([\da-f]+);/gi,(_,n)=>String.fromCodePoint(parseInt(n,16)));
 const normalTitle = value => stripTags(value).normalize('NFKC').replace(/20\d{2}/g,'').replace(/民國\s*\d{2,3}\s*年/g,'').toLowerCase().replace(/[\s\p{P}\p{S}]/gu,'');
 const hash = value => createHash('sha1').update(value).digest('hex').slice(0,18);
@@ -186,8 +186,8 @@ async function fetchArticleListEvents(html, source) {
       const rawText=cleanText(article);
       const titleAt=rawText.lastIndexOf(title);
       const content=(titleAt>=0?rawText.slice(titleAt+title.length):rawText).split(/上一則|下一則|回列表/)[0]
-        .replace(/發布日期\s*[：:]?\s*\d{4}[-/]\d{1,2}[-/]\d{1,2}/g,' ')
-        .replace(/最後更新日期\s*[：:]?\s*\d{4}[-/]\d{1,2}[-/]\d{1,2}/g,' ');
+        .replace(/發布日期\s*[：:]?\s*(?:20\d{2}|1\d{2})[-/]\d{1,2}[-/]\d{1,2}/g,' ')
+        .replace(/最後更新日期\s*[：:]?\s*(?:20\d{2}|1\d{2})[-/]\d{1,2}[-/]\d{1,2}/g,' ');
       const dateContext=content.match(/(?:活動時間|活動日期|活動期間|舉辦日期|展期|活動將於|活動自)[：:\s，,。]*[^。]{0,240}/g)?.join(' ')||'';
       let dateSpan=eventDateSpan(dateContext,TODAY.slice(0,4));
       if(dateSpan){
