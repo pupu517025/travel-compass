@@ -38,7 +38,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\啟動活動管理.ps1
 
 終端機會印出實際預覽網址；在網址後加 `/admin.html` 管理活動，主頁使用同一網址根目錄。若 8000 埠已被使用，服務會自動改用下一個可用埠。要讓部署在網路上的網站也能接受審核變更，部署環境必須提供相同的寫入 API；純靜態主機無法直接修改 JSON 檔。
 
-`data/county-event-sources.json` 設定 22 縣市的政府觀光／活動行事曆。`scripts/sync-county-events.mjs` 每次讀取來源頁，優先解析 Schema.org Event JSON-LD，再解析活動連結附近的標題和日期。苗栗縣來源讀取官方最新消息公告列表，逐篇檢視活動相關公告內文擷取日期與地點。新找到的活動一律建立為 `Pending`；與現有活動相符時只合併來源網址，不另建重複卡片，也不改動既有核准狀態。
+`data/county-event-sources.json` 設定 22 縣市的政府觀光／活動行事曆。`scripts/sync-county-events.mjs` 每次讀取來源頁，優先解析 Schema.org Event JSON-LD，再解析活動連結附近的標題和日期。苗栗縣讀取官方最新消息列表，基隆市讀取基隆市文化觀光局活動訊息列表，並逐篇檢視公告內文擷取日期與地點。新找到的活動一律建立為 `Pending`；與現有活動相符時只合併來源網址，不另建重複卡片，也不改動既有核准狀態。
 
 每筆活動的 `source_refs` 記錄合併後的官方來源；`data/county-source-status.json` 記錄每個來源的抓取結果、候選數和失敗原因。被網站反爬機制阻擋或頁面結構變動時，該來源會在報告標記錯誤，其餘來源仍會繼續處理。沒有活動地點座標的候選資料會以縣市中心點估算 ETA，並用 `location_precision: "county"` 標記。
 

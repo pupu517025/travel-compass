@@ -5,7 +5,7 @@
   {"city":"台中市","name":"臺中觀光旅遊網活動行事曆","url":"https://travel.taichung.gov.tw/zh-tw/event/touristcalendar?year={year}","enabled":true},
   {"city":"台南市","name":"臺南市政府年度活動導覽","url":"https://www.tainan.gov.tw/ActiveMonthList.aspx?n=41463","enabled":true},
   {"city":"高雄市","name":"高雄旅遊網活動行事曆","url":"https://khh.travel/zh-tw/event/calendar/{year}/","enabled":true},
-  {"city":"基隆市","name":"基隆市政府活動訊息","url":"https://www.klcg.gov.tw/tw/klcg1/3169.html","enabled":true},
+  {"city":"基隆市","name":"基隆市文化觀光局活動訊息公告","url":"https://klctb.klcg.gov.tw/News.aspx?n=7488&sms=12483","mode":"article-list","enabled":true},
   {"city":"新竹市","name":"新竹市觀光旅遊網活動行事曆","url":"https://tourism.hccg.gov.tw/","enabled":true},
   {"city":"新竹縣","name":"新竹縣政府文化局藝文活動資訊網","url":"https://event.hchcc.gov.tw/","enabled":true},
   {"city":"苗栗縣","name":"苗栗文化觀光旅遊網最新消息公告","url":"https://miaolitravel.net/Article.aspx?sNo=03004294","mode":"article-list","enabled":true},

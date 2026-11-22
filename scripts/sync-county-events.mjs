@@ -163,12 +163,13 @@ function parseEvents(html, source) {
   const structured=eventJsonLd(html,source);
   return structured.length ? structured : extractHtmlCandidates(html,source);
 }
-const EVENT_SIGNAL=/活動|節|祭|展|市集|音樂|表演|演出|路跑|馬拉松|競賽|藝術|觀光|體驗|講座|工作坊|嘉年華|燈節|燈會|花季|文化|走讀|健行|自行車|親子|跨年|耶誕|聖誕|祭典|煙火|野餐|生活節|博覽會|音樂會|賞花|手作|節慶|節日/;
+const EVENT_SIGNAL=/活動|節|祭|展|市集|音樂|表演|演出|路跑|馬拉松|競賽|藝術|觀光|體驗|講座|工作坊|嘉年華|燈節|燈會|花季|文化|走讀|健行|自行車|親子|跨年|耶誕|聖誕|祭典|煙火|野餐|生活節|博覽會|音樂會|賞花|手作|節慶|節日|舞展|舞台|交換|巡迴|晚會|演奏|放映|閱讀/;
 async function fetchArticleListEvents(html, source) {
   const links=[];
   for(const match of html.matchAll(/<a\b[^>]*href\s*=\s*(["'])(.*?)\1[^>]*>([\s\S]*?)<\/a\s*>/gi)){
     const url=absoluteUrl(match[2],source.url), title=cleanText(match[3]);
-    if(!url||!title||!EVENT_SIGNAL.test(title)||!/[?&]sNo=04\d+/i.test(url)||links.some(item=>item.url===url))continue;
+    const articleUrl=/[?&]sNo=04\d+/i.test(url)||/\/News_Content(?:2)?\.aspx\?/i.test(url);
+    if(!url||!title||!EVENT_SIGNAL.test(title)||!articleUrl||links.some(item=>item.url===url))continue;
     links.push({url,title});
   }
   const found=[];
@@ -177,7 +178,10 @@ async function fetchArticleListEvents(html, source) {
       const response=await fetch(item.url,{headers:{'user-agent':USER_AGENT,accept:'text/html,application/xhtml+xml'},signal:AbortSignal.timeout(12000)});
       if(!response.ok)continue;
       const article=await response.text();
-      const title=cleanText(article.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1]||item.title).replace(/\s+/g,' ').trim();
+      const ogTitleTag=article.match(/<meta\b(?=[^>]*property=["']og:title["'])[^>]*>/i)?.[0]||'';
+      const ogTitle=ogTitleTag.match(/content=["']([^"']*)["']/i)?.[1]||'';
+      const heading=article.match(/<h3\b[^>]*>([\s\S]*?)<\/h3>/i)?.[1]||article.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1];
+      const title=cleanText(ogTitle||heading||item.title).replace(/\s+/g,' ').trim();
       if(!EVENT_SIGNAL.test(title))continue;
       const rawText=cleanText(article);
       const titleAt=rawText.lastIndexOf(title);
