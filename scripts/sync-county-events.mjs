@@ -163,6 +163,41 @@ function parseEvents(html, source) {
   const structured=eventJsonLd(html,source);
   return structured.length ? structured : extractHtmlCandidates(html,source);
 }
+const EVENT_SIGNAL=/活動|節|祭|展|市集|音樂|表演|演出|路跑|馬拉松|競賽|藝術|觀光|體驗|講座|工作坊|嘉年華|燈節|燈會|花季|文化|走讀|健行|自行車|親子|跨年|耶誕|聖誕|祭典|煙火|野餐|生活節|博覽會|音樂會|賞花|手作|節慶|節日/;
+async function fetchArticleListEvents(html, source) {
+  const links=[];
+  for(const match of html.matchAll(/<a\b[^>]*href\s*=\s*(["'])(.*?)\1[^>]*>([\s\S]*?)<\/a\s*>/gi)){
+    const url=absoluteUrl(match[2],source.url), title=cleanText(match[3]);
+    if(!url||!title||!EVENT_SIGNAL.test(title)||!/[?&]sNo=04\d+/i.test(url)||links.some(item=>item.url===url))continue;
+    links.push({url,title});
+  }
+  const found=[];
+  for(const item of links.slice(0,15)){
+    try{
+      const response=await fetch(item.url,{headers:{'user-agent':USER_AGENT,accept:'text/html,application/xhtml+xml'},signal:AbortSignal.timeout(12000)});
+      if(!response.ok)continue;
+      const article=await response.text();
+      const title=cleanText(article.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1]||item.title).replace(/\s+/g,' ').trim();
+      if(!EVENT_SIGNAL.test(title))continue;
+      const rawText=cleanText(article);
+      const titleAt=rawText.lastIndexOf(title);
+      const content=(titleAt>=0?rawText.slice(titleAt+title.length):rawText).split(/上一則|下一則|回列表/)[0]
+        .replace(/發布日期\s*[：:]?\s*\d{4}[-/]\d{1,2}[-/]\d{1,2}/g,' ')
+        .replace(/最後更新日期\s*[：:]?\s*\d{4}[-/]\d{1,2}[-/]\d{1,2}/g,' ');
+      const dateContext=content.match(/(?:活動時間|活動日期|活動期間|舉辦日期|展期|活動將於|活動自)[：:\s，,。]*[^。]{0,240}/g)?.join(' ')||'';
+      let dateSpan=eventDateSpan(dateContext,TODAY.slice(0,4));
+      if(dateSpan){
+        const dates=parseDates(dateContext,TODAY.slice(0,4));
+        if(dates.length>1&&/展期|延續|至|期間/.test(dateContext))dateSpan={start:dates[0].value,end:dates.at(-1).value};
+      }
+      if(!dateSpan)continue;
+      const description=content.replace(/\s+/g,' ').trim().slice(0,240);
+      const event=makeEvent({title,description,start:dateSpan.start,end:dateSpan.end,url:item.url,source,city:source.city,raw:article});
+      if(event)found.push(event);
+    }catch{}
+  }
+  return found;
+}
 function similarity(a,b) {
   if(a===b) return 1;
   const grams=value=>{const chars=[...value];const set=new Set();for(let i=0;i<chars.length-1;i++)set.add(chars[i]+chars[i+1]);return set;};
@@ -195,7 +230,7 @@ async function fetchSource(source) {
     if(!response.ok)throw new Error(`HTTP ${response.status}`);
     const html=await response.text();
     if(/Just a moment\.\.\.|Attention Required!|Cloudflare Ray ID/i.test(html.slice(0,6000)))throw new Error('網站阻擋自動讀取（Cloudflare）');
-    const events=parseEvents(html,source);
+    const events=source.mode==='article-list'?await fetchArticleListEvents(html,source):parseEvents(html,source);
     return {source:source.name,city:source.city,url:source.url,status:'ok',http_status:response.status,bytes:Buffer.byteLength(html),candidates:events.length,elapsed_ms:Date.now()-started,events};
   } catch(error) {
     return {source:source.name,city:source.city,url:source.url,status:'error',error:error.message,elapsed_ms:Date.now()-started,events:[]};
