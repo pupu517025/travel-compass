@@ -37,6 +37,11 @@
       if (error) throw error;
       return data.user;
     },
+    async updatePassword(password) {
+      const { data, error } = await requireClient().auth.updateUser({ password });
+      if (error) throw error;
+      return data.user;
+    },
     async signOut() {
       const { error } = await requireClient().auth.signOut();
       if (error) throw error;
