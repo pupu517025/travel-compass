@@ -16,7 +16,7 @@ if (!baseUrl || !key) {
   process.exit(0);
 }
 
-const headers = { apikey:key, authorization:`Bearer ${key}`, 'content-type':'application/json' };
+const headers = { apikey:key, 'content-type':'application/json' };
 const columns = ['id','source_id','source_hash','status','title','city','district','start_date','end_date','kid_friendly','category','summary','lat','lng','source_url','source_name','source_refs','location_precision','moderated_at','updated_at'];
 const remote = [];
 for (let offset = 0; ; offset += 1000) {
