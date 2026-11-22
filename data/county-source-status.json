@@ -1,0 +1,225 @@
+{
+  "fetched_at": "2026-11-22T02:30:40.264Z",
+  "sources": [
+    {
+      "source": "臺北旅遊網活動年曆",
+      "city": "台北市",
+      "url": "https://www.travel.taipei/zh-tw/event-calendar/2026?major=0",
+      "status": "error",
+      "error": "HTTP 403",
+      "elapsed_ms": 68
+    },
+    {
+      "source": "新北市觀光旅遊網活動行事曆",
+      "city": "新北市",
+      "url": "https://newtaipei.travel/zh-tw/calendar/list?year=2026",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 159733,
+      "candidates": 0,
+      "elapsed_ms": 253
+    },
+    {
+      "source": "桃園觀光導覽網節慶與活動",
+      "city": "桃園市",
+      "url": "https://travel.tycg.gov.tw/zh-tw/event/calendar/",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 6494,
+      "candidates": 0,
+      "elapsed_ms": 255
+    },
+    {
+      "source": "臺中觀光旅遊網活動行事曆",
+      "city": "台中市",
+      "url": "https://travel.taichung.gov.tw/zh-tw/event/touristcalendar?year=2026",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 653995,
+      "candidates": 0,
+      "elapsed_ms": 246
+    },
+    {
+      "source": "臺南市政府年度活動導覽",
+      "city": "台南市",
+      "url": "https://www.tainan.gov.tw/ActiveMonthList.aspx?n=41463",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 152935,
+      "candidates": 0,
+      "elapsed_ms": 1134
+    },
+    {
+      "source": "高雄旅遊網活動行事曆",
+      "city": "高雄市",
+      "url": "https://khh.travel/zh-tw/event/calendar/2026/",
+      "status": "error",
+      "error": "HTTP 403",
+      "elapsed_ms": 248
+    },
+    {
+      "source": "基隆市政府活動訊息",
+      "city": "基隆市",
+      "url": "https://www.klcg.gov.tw/tw/klcg1/3169.html",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 36022,
+      "candidates": 0,
+      "elapsed_ms": 542
+    },
+    {
+      "source": "新竹市觀光旅遊網活動行事曆",
+      "city": "新竹市",
+      "url": "https://tourism.hccg.gov.tw/",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 512,
+      "candidates": 0,
+      "elapsed_ms": 160
+    },
+    {
+      "source": "新竹縣政府文化局藝文活動資訊網",
+      "city": "新竹縣",
+      "url": "https://event.hchcc.gov.tw/",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 68725,
+      "candidates": 6,
+      "elapsed_ms": 108
+    },
+    {
+      "source": "苗栗文化觀光旅遊網",
+      "city": "苗栗縣",
+      "url": "https://miaolitravel.net/index.aspx?lang=1",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 149558,
+      "candidates": 0,
+      "elapsed_ms": 541
+    },
+    {
+      "source": "彰化縣政府活動訊息",
+      "city": "彰化縣",
+      "url": "https://www.chcg.gov.tw/ch2/actives_Township.aspx",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 119054,
+      "candidates": 1,
+      "elapsed_ms": 607
+    },
+    {
+      "source": "南投縣政府活動日曆",
+      "city": "南投縣",
+      "url": "https://www.nantou.gov.tw/",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 88,
+      "candidates": 0,
+      "elapsed_ms": 329
+    },
+    {
+      "source": "雲林縣政府活動行事曆",
+      "city": "雲林縣",
+      "url": "https://www.yunlin.gov.tw/News.aspx?n=1245&sms=9663",
+      "status": "error",
+      "error": "HTTP 403",
+      "elapsed_ms": 58
+    },
+    {
+      "source": "嘉義市政府觀光旅遊網",
+      "city": "嘉義市",
+      "url": "https://www.chiayi.gov.tw/",
+      "status": "error",
+      "error": "HTTP 400",
+      "elapsed_ms": 96
+    },
+    {
+      "source": "嘉義縣文化觀光局慢遊嘉義",
+      "city": "嘉義縣",
+      "url": "https://familytour.chiayi.travel/",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 125619,
+      "candidates": 1,
+      "elapsed_ms": 340
+    },
+    {
+      "source": "屏東旅遊網節慶與活動",
+      "city": "屏東縣",
+      "url": "https://www.i-pingtung.com/",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 2614340,
+      "candidates": 0,
+      "elapsed_ms": 173
+    },
+    {
+      "source": "宜蘭勁好玩活動年曆",
+      "city": "宜蘭縣",
+      "url": "https://travel.yilan.gov.tw/zh-tw/events/2026/",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 306546,
+      "candidates": 0,
+      "elapsed_ms": 181
+    },
+    {
+      "source": "花蓮旅遊網活動年曆",
+      "city": "花蓮縣",
+      "url": "https://hualien.travel/zh-tw/events/2026/",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 436482,
+      "candidates": 0,
+      "elapsed_ms": 297
+    },
+    {
+      "source": "台東觀光旅遊網觀光行事曆",
+      "city": "台東縣",
+      "url": "https://tour.taitung.gov.tw/zh-tw/event-calendar/2026",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 88987,
+      "candidates": 0,
+      "elapsed_ms": 1965
+    },
+    {
+      "source": "澎湖縣政府旅遊處活動訊息",
+      "city": "澎湖縣",
+      "url": "https://www.penghu.gov.tw/tourism/home.jsp?id=62",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 64470,
+      "candidates": 0,
+      "elapsed_ms": 1073
+    },
+    {
+      "source": "金門觀光旅遊網",
+      "city": "金門縣",
+      "url": "https://kinmen.travel/zh-tw",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 5109,
+      "candidates": 0,
+      "elapsed_ms": 408
+    },
+    {
+      "source": "馬祖 eTravel 活動資訊",
+      "city": "連江縣",
+      "url": "https://etravel.matsu.gov.tw/trip?tab=3",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 39896,
+      "candidates": 0,
+      "elapsed_ms": 1276
+    }
+  ],
+  "source_count": 22,
+  "successful": 18,
+  "failed": 4,
+  "candidates": 8,
+  "new_pending": 0,
+  "merged_duplicates": 8,
+  "total_events": 140,
+  "approved": 132
+}

@@ -1,0 +1,4 @@
+# Runtime catalogue may contain unapproved activities; upload it to Supabase, not the public site repository.
+data/tourism-events.json
+data/admin-events.js
+Event-json.zip

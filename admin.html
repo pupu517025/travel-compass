@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>活動管理｜旅遊不卡卡</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#17332c;background:#f3f6f2;font-synthesis:none}
+    *{box-sizing:border-box}body{margin:0}.wrap{max-width:1180px;margin:auto;padding:32px 20px 64px}
+    header{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:22px}h1{margin:0;font-size:28px}header p{margin:6px 0 0;color:#64756d}.updated{color:#64756d;font-size:13px}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:20px}.stat{background:#fff;border:1px solid #e1e9e3;border-radius:14px;padding:16px}.stat span{display:block;color:#64756d;font-size:13px}.stat strong{font-size:27px}
+    .toolbar{display:flex;flex-wrap:wrap;gap:10px;background:#fff;border:1px solid #e1e9e3;border-radius:14px;padding:14px;margin-bottom:14px}.tabs{display:flex;gap:8px}.tab,select,input{font:inherit;border:1px solid #d4dfd7;border-radius:9px;background:#fff;padding:10px 12px;color:inherit}.tab{cursor:pointer}.tab.active{background:#174f3d;border-color:#174f3d;color:#fff}input{flex:1;min-width:200px}select{min-width:145px}
+    .result-count{color:#64756d;font-size:14px;margin:12px 2px}.server-status{font-size:13px;margin:0 2px 12px;color:#426553}.server-status.error{color:#a14832}.list{display:grid;gap:10px}.event{background:#fff;border:1px solid #e1e9e3;border-radius:14px;padding:16px 18px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px}.title{font-weight:700;font-size:17px;margin:0 0 7px}.meta{color:#52665d;font-size:14px;display:flex;flex-wrap:wrap;gap:6px 14px}.summary{margin:9px 0 0;color:#52665d;line-height:1.55}.tags{display:flex;gap:6px;align-items:start;flex-wrap:wrap}.tag{font-size:12px;padding:5px 8px;border-radius:999px;background:#edf3ee;color:#355749;white-space:nowrap}.tag.pending{background:#fff0d8;color:#87540b}.tag.approved{background:#e1f4e8;color:#23613d}.source{margin-top:10px;font-size:13px}.source a{color:#176b4c}.status-action{border:0;border-radius:9px;padding:8px 11px;background:#174f3d;color:#fff;font-weight:700;cursor:pointer;white-space:nowrap}.status-action.revert{background:#eff3ef;color:#40584b}.status-action:disabled{opacity:.55;cursor:wait}.empty{padding:38px 18px;background:#fff;border:1px dashed #c9d6cd;border-radius:14px;text-align:center;color:#64756d}
+    .cloud-login{background:#fff;border:1px solid #e1e9e3;border-radius:14px;padding:18px;margin-bottom:16px}.cloud-login h2{font-size:17px;margin:0 0 6px}.cloud-login p{font-size:13px;color:#64756d}.login-form{display:flex;flex-wrap:wrap;gap:8px}.login-form input{min-width:180px}.login-button,.logout-button{border:0;border-radius:9px;background:#174f3d;color:#fff;padding:10px 14px;font-weight:700;cursor:pointer}.logout-button{background:#eff3ef;color:#40584b}.auth-status{font-size:13px;color:#426553;margin-top:9px}.auth-status.error{color:#a14832}
+    @media(max-width:640px){.wrap{padding:22px 14px 40px}header{align-items:start;flex-direction:column}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:23px}.event{grid-template-columns:1fr;padding:14px}.tags{order:-1}.toolbar{padding:10px}.tabs{width:100%}.tab{flex:1}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header><div><h1>活動管理</h1><p>快速查看目前已核准與待審核的活動</p></div><div class="updated" id="updated"></div></header>
+    <section id="cloudLogin" class="cloud-login" hidden>
+      <h2>線上管理者登入</h2><p>請使用已加入管理者名單的帳號登入。</p>
+      <form id="cloudLoginForm" class="login-form"><input id="adminEmail" type="email" autocomplete="username" placeholder="管理者 Email" required><input id="adminPassword" type="password" autocomplete="current-password" placeholder="密碼" required><button class="login-button" type="submit">登入</button><button class="logout-button" id="cloudLogout" type="button" hidden>登出</button></form>
+      <div id="authStatus" class="auth-status" role="status"></div>
+    </section>
+    <section class="stats" aria-label="活動數量">
+      <div class="stat"><span>全部活動</span><strong id="allCount">—</strong></div>
+      <div class="stat"><span>已核准</span><strong id="approvedCount">—</strong></div>
+      <div class="stat"><span>待審核</span><strong id="pendingCount">—</strong></div>
+    </section>
+    <section class="toolbar" aria-label="活動篩選">
+      <div class="tabs"><button class="tab active" data-status="Pending">待審核</button><button class="tab" data-status="Approved">已核准</button><button class="tab" data-status="All">全部</button></div>
+      <input id="search" type="search" placeholder="搜尋活動名稱或簡介" aria-label="搜尋活動">
+      <select id="city" aria-label="依縣市篩選"><option value="">全部縣市</option></select>
+      <select id="sort" aria-label="排序"><option value="start">依開始日期</option><option value="end">依結束日期</option><option value="city">依縣市</option></select>
+    </section>
+    <div class="result-count" id="resultCount"></div>
+    <div class="server-status" id="serverStatus" role="status"></div>
+    <section class="list" id="list" aria-live="polite"></section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data/app-config.js"></script>
+  <script src="services/cloudEvents.js"></script>
+  <script src="data/admin-events.js"></script>
+  <script>
+    (async()=>{
+      let events=Array.isArray(window.ADMIN_EVENTS)?window.ADMIN_EVENTS:[];
+      const city=document.querySelector('#city'),search=document.querySelector('#search'),sort=document.querySelector('#sort'),list=document.querySelector('#list');
+      let status='Pending';
+      let cloudMode=false;
+      const serverStatus=document.querySelector('#serverStatus');
+      const authStatus=document.querySelector('#authStatus');
+      const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+      const fmt=d=>/^\d{4}-\d{2}-\d{2}$/.test(d||'')?`${d.slice(0,4)}/${d.slice(5,7)}/${d.slice(8,10)}`:'日期未提供';
+      function updateStats(){document.querySelector('#allCount').textContent=events.length;document.querySelector('#approvedCount').textContent=events.filter(e=>e.status==='Approved').length;document.querySelector('#pendingCount').textContent=events.filter(e=>e.status==='Pending').length}
+      function populateCities(){const selected=city.value;city.replaceChildren(new Option('全部縣市',''));for(const name of [...new Set(events.map(e=>e.city).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'zh-Hant')))city.add(new Option(`${name} (${events.filter(e=>e.city===name).length})`,name));city.value=selected}
+      updateStats();
+      document.querySelector('#updated').textContent=`檢視時間：${new Date().toLocaleString('zh-TW',{hour12:false})}`;
+      populateCities();
+      function render(){
+        const term=search.value.trim().toLocaleLowerCase();
+        const items=events.filter(e=>(status==='All'||e.status===status)&&(!city.value||e.city===city.value)&&(!term||`${e.title||''} ${e.summary||''} ${e.city||''} ${e.district||''}`.toLocaleLowerCase().includes(term)));
+        const field=sort.value;items.sort((a,b)=>field==='city'?String(a.city).localeCompare(String(b.city),'zh-Hant'):String(a[field==='end'?'end_date':'start_date']).localeCompare(String(b[field==='end'?'end_date':'start_date'])));
+        document.querySelector('#resultCount').textContent=`顯示 ${items.length} 筆`;
+        list.innerHTML=items.length?items.map(e=>{const sourceUrl=/^https?:\/\//i.test(e.source_url||'')?e.source_url:'';const action=e.status==='Pending'?`<button class="status-action" data-status-id="${escape(e.id)}" data-next-status="Approved">核准上架</button>`:e.status==='Approved'?`<button class="status-action revert" data-status-id="${escape(e.id)}" data-next-status="Pending">撤回核准</button>`:'';return `<article class="event"><div><h2 class="title">${escape(e.title)}</h2><div class="meta"><span>📍 ${escape(e.city)}${e.district?`・${escape(e.district)}`:''}</span><span>📅 ${fmt(e.start_date)} 至 ${fmt(e.end_date)}</span><span>${escape(e.category||'未分類')}</span>${e.kid_friendly?'<span>親子友善</span>':''}</div>${e.summary?`<p class="summary">${escape(e.summary)}</p>`:''}<div class="source">來源：${sourceUrl?`<a href="${escape(sourceUrl)}" target="_blank" rel="noopener noreferrer">${escape(e.source_name||'查看官方公告')} ↗</a>`:escape(e.source_name||'未提供')}</div></div><div class="tags"><span class="tag ${e.status==='Pending'?'pending':'approved'}">${e.status==='Pending'?'待審核':e.status==='Approved'?'已核准':'已拒絕'}</span>${action}</div></article>`}).join(''):'<div class="empty">這個篩選條件下沒有活動</div>';
+        list.querySelectorAll('[data-status-id]').forEach(button=>button.addEventListener('click',()=>setStatus(button.dataset.statusId,button.dataset.nextStatus,button)));
+      }
+      async function setStatus(id,nextStatus,button){button.disabled=true;button.textContent=nextStatus==='Approved'?'正在核准…':'正在更新…';try{let updated;if(cloudMode)updated=await CloudEvents.setStatus(id,nextStatus);else{const response=await fetch('/api/events/status',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id,status:nextStatus})});const result=await response.json();if(!response.ok)throw new Error(result.error||'更新失敗');updated=result.event}events=events.map(event=>event.id===id?updated:event);updateStats();populateCities();serverStatus.classList.remove('error');serverStatus.textContent=`已更新「${updated.title}」：${nextStatus==='Approved'?'已核准上架':'已退回待審核'}。主頁會同步資料。`;if('BroadcastChannel'in window)new BroadcastChannel('travel-events').postMessage('updated');localStorage.setItem('travel-events-updated',String(Date.now()));render()}catch(error){serverStatus.classList.add('error');serverStatus.textContent=`無法儲存審核狀態：${error.message}`;button.disabled=false;button.textContent=nextStatus==='Approved'?'核准上架':'撤回核准'}}
+      document.querySelectorAll('.tab').forEach(button=>button.addEventListener('click',()=>{status=button.dataset.status;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b===button));render()}));
+      [city,search,sort].forEach(control=>control.addEventListener('input',render));
+      const loginForm=document.querySelector('#cloudLoginForm'),logoutButton=document.querySelector('#cloudLogout');
+      async function loadCloudAdmin(){if(!await CloudEvents.isAdmin())throw new Error('此帳號沒有管理者權限');events=await CloudEvents.loadAdminEvents();updateStats();populateCities();logoutButton.hidden=false;authStatus.classList.remove('error');authStatus.textContent='管理者已登入；審核變更會同步到主頁。';serverStatus.textContent='活動資料來自雲端資料庫。';render()}
+      if(CloudEvents?.isConfigured()){
+        cloudMode=true;document.querySelector('#cloudLogin').hidden=false;events=[];updateStats();populateCities();serverStatus.textContent='登入後載入雲端審核清單。';
+        loginForm.addEventListener('submit',async event=>{event.preventDefault();const submit=loginForm.querySelector('[type="submit"]');submit.disabled=true;authStatus.classList.remove('error');authStatus.textContent='正在登入…';try{await CloudEvents.signIn(document.querySelector('#adminEmail').value,document.querySelector('#adminPassword').value);await loadCloudAdmin()}catch(error){authStatus.classList.add('error');authStatus.textContent=error.message;try{await CloudEvents.signOut()}catch{}}finally{submit.disabled=false}});
+        logoutButton.addEventListener('click',async()=>{await CloudEvents.signOut();events=[];updateStats();populateCities();logoutButton.hidden=true;authStatus.textContent='已登出。';render()});
+        try{if(await CloudEvents.getSession())await loadCloudAdmin();else authStatus.textContent='請登入管理者帳號。'}catch(error){authStatus.classList.add('error');authStatus.textContent=error.message}
+      } else if(location.protocol==='file:'){serverStatus.textContent='唯讀預覽。線上雲端管理尚未設定；本機審核請透過啟動服務的網址開啟。';render()}
+      else {try{const response=await fetch('/api/events',{cache:'no-store'});if(!response.ok)throw new Error('API unavailable');const data=await response.json();if(Array.isArray(data.events)){events=data.events;updateStats();populateCities();serverStatus.textContent='審核變更會儲存至活動資料，主頁會即時同步。'}}catch{serverStatus.classList.add('error');serverStatus.textContent='尚未連上本機寫入服務或雲端設定。'}render()}
+    })();
+  </script>
+</body>
+</html>
