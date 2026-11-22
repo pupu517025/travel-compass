@@ -32,6 +32,10 @@
       if (error) throw error;
       return data.session;
     },
+    onAuthStateChange(callback) {
+      const { data } = requireClient().auth.onAuthStateChange(callback);
+      return data.subscription;
+    },
     async signIn(email, password) {
       const { data, error } = await requireClient().auth.signInWithPassword({ email, password });
       if (error) throw error;
